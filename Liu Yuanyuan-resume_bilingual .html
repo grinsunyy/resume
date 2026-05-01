@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刘媛媛 · Ellie Liu · Web3 Community Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090b;--surface:#111113;--surface2:#18181c;--gold:#c8a96e;--gold-dim:rgba(200,169,110,0.1);--gold-border:rgba(200,169,110,0.22);--teal:#4a9e8a;--text:#e4e0d8;--text-muted:#7a7670;--text-dim:#3e3d3a;--border:rgba(255,255,255,0.055);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes lineGrow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+.fu{opacity:0;animation:fadeUp .6s ease forwards;}
+.d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}.d5{animation-delay:.36s}.d6{animation-delay:.44s}.d7{animation-delay:.52s}.d8{animation-delay:.6s}
+.lang-toggle{position:fixed;top:1.5rem;right:1.5rem;z-index:100;display:flex;background:var(--surface);border:.5px solid var(--border);border-radius:3px;overflow:hidden;}
+.lt-btn{padding:6px 14px;font-size:11px;letter-spacing:.08em;cursor:pointer;border:none;background:transparent;color:var(--text-muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
+.lt-btn.active{background:var(--gold-dim);color:var(--gold);}
+.lt-btn:hover:not(.active){color:var(--text);}
+.zh{display:block;}.en{display:none;}
+body.en-mode .zh{display:none;}
+body.en-mode .en{display:block;}
+.wrap{max-width:980px;margin:0 auto;padding:4rem 2.5rem 7rem;}
+.hdr{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;padding-bottom:2.5rem;margin-bottom:3rem;position:relative;}
+.hdr-line{position:absolute;bottom:0;left:0;right:0;height:.5px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,169,110,0.08) 70%,transparent 100%);transform-origin:left;animation:lineGrow 1.1s cubic-bezier(.4,0,.2,1) forwards .2s;transform:scaleX(0);}
+.name{font-family:'Cormorant Garamond',serif;font-size:4.6rem;font-weight:300;line-height:.92;letter-spacing:-.015em;}
+.name-sub{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--gold);margin-top:.5rem;letter-spacing:.05em;}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:.9rem;padding:5px 13px;border:.5px solid var(--gold-border);border-radius:2px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2.2s ease infinite;}
+.contact{text-align:right;display:flex;flex-direction:column;gap:5px;padding-top:.3rem;}
+.contact-row{font-size:12px;color:var(--text-muted);font-weight:300;display:flex;align-items:center;justify-content:flex-end;gap:7px;}
+.contact-row a{color:var(--text-muted);text-decoration:none;transition:color .2s;}
+.contact-row a:hover{color:var(--gold);}
+.body{display:grid;grid-template-columns:240px 1fr;gap:4rem;}
+.slabel{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.1rem;display:flex;align-items:center;gap:10px;}
+.slabel::after{content:'';flex:1;height:.5px;background:var(--border);}
+.sidebar{display:flex;flex-direction:column;gap:2.25rem;}
+.intro{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--text-muted);line-height:1.85;}
+.skill-group{margin-bottom:.9rem;}
+.sg-name{font-size:10.5px;color:var(--gold);margin-bottom:6px;font-weight:500;}
+.tags{display:flex;flex-wrap:wrap;gap:4px;}
+.tag{font-size:11px;padding:3px 9px;border:.5px solid var(--border);border-radius:2px;color:var(--text-muted);background:var(--surface);transition:all .2s;cursor:default;}
+.tag:hover{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);}
+.lang-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.lang-name{font-size:12px;color:var(--text);min-width:56px;}
+.lang-bar{width:88px;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.lang-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--gold));}
+.lang-level{font-size:10px;color:var(--text-dim);min-width:52px;text-align:right;}
+.main{display:flex;flex-direction:column;gap:2.5rem;}
+.summary-card{background:var(--surface);border:.5px solid var(--border);border-left:2px solid var(--gold);border-radius:2px;padding:1.25rem 1.4rem;}
+.summary-text{font-size:13px;color:var(--text-muted);line-height:1.85;}
+.summary-text strong{color:var(--gold);font-weight:500;}
+.target-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.target-card{background:var(--surface);border:.5px solid var(--border);border-radius:2px;padding:.75rem 1rem;transition:border-color .2s;}
+.target-card:hover{border-color:var(--gold-border);}
+.target-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:2px;background:rgba(74,158,138,0.1);color:var(--teal);border:.5px solid rgba(74,158,138,0.25);margin-bottom:5px;}
+.target-role{font-size:12.5px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.target-desc{font-size:11px;color:var(--text-muted);line-height:1.55;}
+.aba-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.aba-card{background:var(--surface);border:.5px solid var(--border);border-radius:2px;padding:1rem 1.1rem;transition:border-color .25s;}
+.aba-card:hover{border-color:var(--gold-border);}
+.aba-top{display:flex;align-items:flex-start;gap:9px;margin-bottom:6px;}
+.aba-icon{min-width:24px;height:24px;border-radius:2px;background:var(--gold-dim);border:.5px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-size:11px;}
+.aba-title{font-size:11.5px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.aba-web3{font-size:10.5px;color:var(--teal);}
+.aba-desc{font-size:11.5px;color:var(--text-muted);line-height:1.65;}
+.exp-item{padding-bottom:1.75rem;margin-bottom:1.75rem;border-bottom:.5px solid var(--border);}
+.exp-item:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.3rem;}
+.exp-company{font-size:14px;font-weight:500;color:var(--text);}
+.exp-date{font-size:11px;color:var(--text-dim);white-space:nowrap;padding-top:2px;}
+.exp-role{font-size:12px;color:var(--gold);margin-bottom:.5rem;}
+.exp-sub{font-size:11px;color:var(--text-dim);margin-top:2px;}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.exp-bullets li{font-size:12.5px;color:var(--text-muted);padding-left:14px;position:relative;line-height:1.7;}
+.exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--text-dim);}
+.hi{color:var(--teal);font-weight:500;}
+.vol-header{display:flex;justify-content:space-between;margin-bottom:.25rem;}
+.vol-title{font-size:13px;font-weight:500;color:var(--text);}
+.vol-date{font-size:11px;color:var(--text-dim);}
+.vol-org{font-size:11.5px;color:var(--gold);margin-bottom:.4rem;}
+.vol-bullets{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.vol-bullets li{font-size:12px;color:var(--text-muted);padding-left:14px;position:relative;line-height:1.65;}
+.vol-bullets li::before{content:'—';position:absolute;left:0;color:var(--text-dim);}
+.project-card{background:var(--surface);border:.5px solid var(--border);border-radius:2px;padding:1.25rem 1.4rem;transition:border-color .25s;}
+.project-card:hover{border-color:var(--gold-border);}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem;}
+.proj-name{font-size:14px;font-weight:500;color:var(--text);}
+.proj-link{font-size:11px;color:var(--teal);text-decoration:none;border-bottom:.5px solid rgba(74,158,138,0.3);white-space:nowrap;}
+.proj-link:hover{color:var(--gold);}
+.proj-sub{font-size:11.5px;color:var(--gold);margin-bottom:.6rem;}
+.proj-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.proj-bullets li{font-size:12.5px;color:var(--text-muted);padding-left:14px;position:relative;line-height:1.7;}
+.proj-bullets li::before{content:'—';position:absolute;left:0;color:var(--text-dim);}
+.closing{padding:1.5rem 1.75rem;border:.5px solid var(--gold-border);border-radius:2px;background:var(--gold-dim);}
+.closing-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;font-style:italic;color:var(--text-muted);line-height:1.85;text-align:center;}
+.closing-text strong{color:var(--gold);font-style:normal;font-weight:600;}
+@media(max-width:700px){.hdr{grid-template-columns:1fr;}.contact{text-align:left;align-items:flex-start;}.body{grid-template-columns:1fr;}.aba-grid{grid-template-columns:1fr;}.target-grid{grid-template-columns:1fr;}.name{font-size:3rem;}.lang-toggle{top:1rem;right:1rem;}}
+</style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lt-btn active" onclick="setLang('zh')">中文</button>
+  <button class="lt-btn" onclick="setLang('en')">EN</button>
+</div>
+<div class="wrap">
+  <header class="hdr fu d1">
+    <div>
+      <div class="name zh">刘媛媛</div>
+      <div class="name en" style="font-family:'Cormorant Garamond',serif;font-size:4.6rem;font-weight:300;line-height:.92;letter-spacing:-.015em;">Ellie Liu</div>
+      <div class="name-sub zh">Ellie Liu · Web3 社区运营</div>
+      <div class="name-sub en">刘媛媛 · Web3 Community Manager</div>
+      <div class="badge"><span class="badge-dot"></span>
+        <span class="zh">Web3 社区运营 · Community Manager</span>
+        <span class="en">Web3 Community Manager · Open to Remote</span>
+      </div>
+    </div>
+    <div class="contact">
+      <div class="contact-row">📱 <a href="tel:+8615919178024">+86 159-1917-8024</a></div>
+      <div class="contact-row">📧 <a href="mailto:eleanorliuy@gmail.com">eleanorliuy@gmail.com</a></div>
+      <div class="contact-row">📍 <span class="zh">广州 / 深圳 · 开放远程</span><span class="en">Guangzhou / Shenzhen · Open to Remote</span></div>
+      <div class="contact-row">🔗 <a href="https://grinsunyy.github.io/Risk/" target="_blank">Safe-Logic ↗</a></div>
+    </div>
+    <div class="hdr-line"></div>
+  </header>
+
+  <div class="body">
+    <aside class="sidebar">
+      <div class="fu d2">
+        <div class="slabel"><span class="zh">关于我</span><span class="en">Profile</span></div>
+        <p class="intro zh">ENFP · 外向开朗，深度理解人类行为与动机。以心理学视角构建社区，以数据驱动策略迭代。</p>
+        <p class="intro en">ENFP · Outgoing and empathetic, with a deep understanding of human behavior and motivation. Builds communities through a psychology lens, drives strategy through data.</p>
+      </div>
+      <div class="fu d3">
+        <div class="slabel"><span class="zh">核心技能</span><span class="en">Core Skills</span></div>
+        <div class="skill-group">
+          <div class="sg-name zh">行为科学</div><div class="sg-name en">Behavioral Science</div>
+          <div class="tags"><span class="tag">ABA</span><span class="tag zh">行为动机分析</span><span class="tag en">Motivation Analysis</span><span class="tag">ABC Analysis</span><span class="tag">VB-MAPP</span><span class="tag">ABLLS-R</span></div>
+        </div>
+        <div class="skill-group">
+          <div class="sg-name zh">社区 & 市场运营</div><div class="sg-name en">Community & Marketing</div>
+          <div class="tags">
+            <span class="tag zh">多方关系管理</span><span class="tag en">Stakeholder Management</span>
+            <span class="tag zh">活动策划执行</span><span class="tag en">Event Planning</span>
+            <span class="tag zh">危机沟通</span><span class="tag en">Crisis Communication</span>
+            <span class="tag zh">用户教育</span><span class="tag en">User Education</span>
+            <span class="tag zh">内容传播</span><span class="tag en">Content Strategy</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="sg-name">Tools & Platforms</div>
+          <div class="tags"><span class="tag">Discord</span><span class="tag">Telegram</span><span class="tag">Twitter / X</span><span class="tag">GitHub Pages</span></div>
+        </div>
+      </div>
+      <div class="fu d4">
+        <div class="slabel"><span class="zh">语言能力</span><span class="en">Languages</span></div>
+        <div class="lang-item"><span class="lang-name zh">中文</span><span class="lang-name en">Mandarin</span><div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div><span class="lang-level zh">母语</span><span class="lang-level en">Native</span></div>
+        <div class="lang-item"><span class="lang-name">粤语</span><div class="lang-bar"><div class="lang-fill" style="width:75%"></div></div><span class="lang-level zh">日常</span><span class="lang-level en">Conversational</span></div>
+        <div class="lang-item"><span class="lang-name">English</span><div class="lang-bar"><div class="lang-fill" style="width:48%"></div></div><span class="lang-level zh">工作级</span><span class="lang-level en">Working</span></div>
+        <div class="lang-item"><span class="lang-name">Русский</span><div class="lang-bar"><div class="lang-fill" style="width:18%"></div></div><span class="lang-level zh">基础</span><span class="lang-level en">Basic</span></div>
+      </div>
+      <div class="fu d5">
+        <div class="slabel"><span class="zh">爱好</span><span class="en">Interests</span></div>
+        <div class="tags">
+          <span class="tag zh">运动健身</span><span class="tag en">Fitness</span>
+          <span class="tag zh">哲学 & 心理学</span><span class="tag en">Philosophy & Psychology</span>
+          <span class="tag zh">摄影</span><span class="tag en">Photography</span>
+          <span class="tag zh">养猫</span><span class="tag en">Cats</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- SUMMARY -->
+      <div class="fu d2">
+        <div class="slabel"><span class="zh">核心竞争力</span><span class="en">Summary</span></div>
+        <div class="summary-card">
+          <p class="summary-text zh">拥有<strong>教育心理学硕士学位</strong>（GPA 9.4/10）及 <strong>5,500+ 小时</strong>应用行为分析（ABA）实战经验。ABA 学科的方法论核心——系统性行为观察、量化数据收集与分析、循证策略制定、动机激活与行为塑造——与 Web3 社区运营的底层逻辑高度契合。具备在复杂多方生态系统中<strong>同时建立并维护关系网络</strong>的丰富实战经验，擅长在高压环境中建立信任、传递价值、推动协同。独立开发并上线行为决策工具 <strong>Safe-Logic</strong>，具备从零到一的产品执行能力。</p>
+          <p class="summary-text en">MSc in Educational Psychology (GPA 9.4/10) with <strong>5,500+ hours</strong> of Applied Behavior Analysis (ABA) practice. The core ABA methodology — structured behavioral observation, quantitative data collection, evidence-based strategy, motivation operations, and behavioral shaping — maps directly onto the fundamentals of <strong>Web3 community management</strong>. Proven experience building and maintaining multi-stakeholder relationship networks under high-pressure conditions. Independently designed and launched <strong>Safe-Logic</strong>, a behavioral decision-making tool, demonstrating end-to-end product execution ability.</p>
+        </div>
+      </div>
+
+      <!-- TARGET ROLES -->
+      <div class="fu d2">
+        <div class="slabel"><span class="zh">求职意向</span><span class="en">Target Roles</span></div>
+        <div class="target-grid">
+          <div class="target-card">
+            <div class="target-badge">Best Match</div>
+            <div class="target-role zh">社区运营 · Community Manager</div>
+            <div class="target-role en">Community Manager</div>
+            <div class="target-desc zh">生态关系管理 + 动机激活，驱动社区有机增长</div>
+            <div class="target-desc en">Ecosystem relationship management + motivation ops to drive organic community growth</div>
+          </div>
+          <div class="target-card">
+            <div class="target-badge">Growth</div>
+            <div class="target-role zh">增长运营 · Growth Marketer</div>
+            <div class="target-role en">Growth Marketer</div>
+            <div class="target-desc zh">ABA 数据驱动思维 + 行为分析，优化用户获取与留存</div>
+            <div class="target-desc en">ABA data-driven thinking + behavioral analysis to optimize user acquisition and retention</div>
+          </div>
+          <div class="target-card">
+            <div class="target-badge">Education</div>
+            <div class="target-role zh">用户教育运营 · User Education Lead</div>
+            <div class="target-role en">User Education Lead</div>
+            <div class="target-desc zh">将复杂 Web3 概念转化为易理解内容，提升用户参与深度</div>
+            <div class="target-desc en">Translating complex Web3 concepts into accessible content to deepen user engagement</div>
+          </div>
+          <div class="target-card">
+            <div class="target-badge">Ambassador</div>
+            <div class="target-role zh">大使计划运营 · Ambassador Program Manager</div>
+            <div class="target-role en">Ambassador Program Manager</div>
+            <div class="target-desc zh">多方关系管理 + 行为塑造，构建项目 KOL 生态网络</div>
+            <div class="target-desc en">Multi-stakeholder management + behavioral shaping to build project KOL ecosystems</div>
+          </div>
+          <div class="target-card">
+            <div class="target-badge">Content</div>
+            <div class="target-role zh">内容与社媒运营 · Content & Social Media Manager</div>
+            <div class="target-role en">Content & Social Media Manager</div>
+            <div class="target-desc zh">活动策划 + 心理学洞察，创作驱动传播的社群内容</div>
+            <div class="target-desc en">Event planning + psychology insights to create community content that drives organic reach</div>
+          </div>
+          <div class="target-card">
+            <div class="target-badge">Marketing</div>
+            <div class="target-role zh">市场推广运营 · Marketing Operations</div>
+            <div class="target-role en">Marketing Operations</div>
+            <div class="target-desc zh">跨城市多场活动执行，具备规模化落地与协调能力</div>
+            <div class="target-desc en">Multi-city event execution with scalable coordination and delivery capability</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABA × WEB3 -->
+      <div class="fu d3">
+        <div class="slabel"><span class="zh">ABA 方法论 × Web3 · 能力迁移</span><span class="en">ABA Methodology × Web3 · Skill Transfer</span></div>
+        <div class="aba-grid">
+          <div class="aba-card"><div class="aba-top"><div class="aba-icon">👁</div><div><div class="aba-title zh">系统性行为观察</div><div class="aba-title en">Structured Behavioral Observation</div><div class="aba-web3 zh">→ 社区健康度监测</div><div class="aba-web3 en">→ Community Health Monitoring</div></div></div><div class="aba-desc zh">从日常互动信号中识别用户参与模式、情绪走向与流失预警，不依赖表面数据或主观判断。</div><div class="aba-desc en">Identifies user engagement patterns, sentiment shifts, and churn signals from daily interaction data — beyond surface metrics.</div></div>
+          <div class="aba-card"><div class="aba-top"><div class="aba-icon">📊</div><div><div class="aba-title zh">量化数据收集与记录</div><div class="aba-title en">Quantitative Data Collection</div><div class="aba-web3 zh">→ 运营数据分析体系</div><div class="aba-web3 en">→ Analytics-Driven Operations</div></div></div><div class="aba-desc zh">以 ABC 行为分析框架建立量化监测体系，将社区互动数据转化为可执行的运营策略依据。</div><div class="aba-desc en">Applies ABC analysis to build quantitative monitoring frameworks, translating community data into actionable strategy.</div></div>
+          <div class="aba-card"><div class="aba-top"><div class="aba-icon">⚡</div><div><div class="aba-title zh">动机激活（MO）</div><div class="aba-title en">Motivation Operations (MO)</div><div class="aba-web3 zh">→ 用户内驱力与归属感建设</div><div class="aba-web3 en">→ Intrinsic Engagement & Belonging</div></div></div><div class="aba-desc zh">识别不同用户的核心驱动力，设计差异化激励机制，推动社区从外部奖励转向有机自驱增长。</div><div class="aba-desc en">Identifies individual user motivators and designs differentiated incentive mechanisms to drive organic, self-sustaining community growth.</div></div>
+          <div class="aba-card"><div class="aba-top"><div class="aba-icon">🎯</div><div><div class="aba-title zh">行为塑造（Shaping）</div><div class="aba-title en">Behavioral Shaping</div><div class="aba-web3 zh">→ 用户成长路径设计</div><div class="aba-web3 en">→ User Journey Architecture</div></div></div><div class="aba-desc zh">将复杂目标拆解为渐进步骤，系统引导用户从旁观者成长为核心贡献者与项目 KOL。</div><div class="aba-desc en">Deconstructs complex goals into progressive milestones, systematically guiding users from lurkers to core contributors and KOLs.</div></div>
+          <div class="aba-card"><div class="aba-top"><div class="aba-icon">🌐</div><div><div class="aba-title zh">生态系统关系管理</div><div class="aba-title en">Ecosystem Relationship Management</div><div class="aba-web3 zh">→ 多方社区生态链接</div><div class="aba-web3 en">→ Multi-stakeholder Community Ops</div></div></div><div class="aba-desc zh">同时维护多方利益相关者关系，确保信息一致、目标一致——天然具备社区生态视角。</div><div class="aba-desc en">Simultaneously manages multiple stakeholder relationships while maintaining message consistency — a natural ecosystem thinker.</div></div>
+          <div class="aba-card"><div class="aba-top"><div class="aba-icon">🛡</div><div><div class="aba-title zh">行为问题实地干预</div><div class="aba-title en">Real-World Behavior Intervention</div><div class="aba-web3 zh">→ 社区危机处理与调解</div><div class="aba-web3 en">→ Crisis & Conflict Resolution</div></div></div><div class="aba-desc zh">在高压复杂场景中快速定位问题根源，制定透明、及时的危机沟通策略，保持情绪稳定。</div><div class="aba-desc en">Rapidly identifies root causes under pressure and executes transparent, timely crisis communication while maintaining emotional stability.</div></div>
+        </div>
+      </div>
+
+      <!-- WORK EXP -->
+      <div class="fu d4">
+        <div class="slabel"><span class="zh">工作经验</span><span class="en">Work Experience</span></div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <div><div class="exp-company zh">自雇 · 影子老师（融合教育）</div><div class="exp-company en">Self-Employed · Shadow Teacher (Inclusive Education)</div><div class="exp-sub zh">深圳 / 广州 · 公私立幼儿园及小学</div><div class="exp-sub en">Shenzhen / Guangzhou · Public & Private Kindergartens and Primary Schools</div></div>
+            <span class="exp-date zh">2024.09 – 2026.02</span><span class="exp-date en">Sep 2024 – Feb 2026</span>
+          </div>
+          <div class="exp-role zh">独立从业者 · 广东省</div><div class="exp-role en">Independent Practitioner · Guangdong Province</div>
+          <ul class="exp-bullets">
+            <li class="zh">独立开拓并维护深圳、广州多所学校合作关系，负责<span class="hi">学校对接、家长全流程沟通及进展管理</span></li>
+            <li class="en">Independently built and maintained partnerships with multiple schools across Shenzhen and Guangzhou, managing <span class="hi">school liaison, parent communication, and progress reporting end-to-end</span></li>
+            <li class="zh">作为独立从业者并行管理多个案例，具备强自驱力、项目统筹与多方资源整合能力</li>
+            <li class="en">Managed multiple concurrent cases independently, demonstrating strong self-motivation, project coordination, and resource integration</li>
+            <li class="zh">运用心理行为学支持自闭症儿童在主流课堂建立社交技能与群体融合能力</li>
+            <li class="en">Applied behavioral psychology to support ASD children in developing social skills and classroom inclusion</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <div><div class="exp-company zh">广州培立教育</div><div class="exp-company en">Impower Education</div><div class="exp-sub zh">Impower Education · 广州</div><div class="exp-sub en">Guangzhou, China</div></div>
+            <span class="exp-date zh">2023.06 – 2024.09</span><span class="exp-date en">Jun 2023 – Sep 2024</span>
+          </div>
+          <div class="exp-role zh">ABA 干预师 / 影子老师</div><div class="exp-role en">ABA Therapist / Shadow Teacher</div>
+          <ul class="exp-bullets">
+            <li class="zh">为 2–8 岁 ASD 儿童制定并执行个性化干预目标，<span class="hi">持续收集行为数据并迭代治疗策略</span></li>
+            <li class="en">Designed and implemented individualized intervention goals for children aged 2–8 with ASD, <span class="hi">continuously collecting behavioral data to iterate treatment strategies</span></li>
+            <li class="zh">在主流学校课堂中支持儿童融合，运用行为塑造技术促进社交互动与自我管理能力发展</li>
+            <li class="en">Supported inclusive classroom integration in mainstream schools, using behavioral shaping to develop social interaction and self-regulation skills</li>
+            <li class="zh">与 BCBA、BCaBA 及家长团队构建<span class="hi">多方协作机制</span>，整合各方信息制定一致性治疗计划</li>
+            <li class="en">Built <span class="hi">multi-stakeholder collaboration frameworks</span> with BCBAs, BCaBAs, and families, synthesizing inputs into cohesive treatment plans</li>
+            <li class="zh">运用 ABA 核心方法（DTT、NET、PECS）及 VB-MAPP、ABLLS-R 评估体系</li>
+            <li class="en">Applied core ABA methodologies (DTT, NET, PECS) with VB-MAPP and ABLLS-R assessment systems</li>
+          </ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <div><div class="exp-company zh">深圳复米康复科技有限公司（大米和小米）</div><div class="exp-company en">Shenzhen Fumi Rehab Technology Co. (Dami & Xiaomi)</div><div class="exp-sub en">Shenzhen, China</div></div>
+            <span class="exp-date zh">2022.07 – 2023.05</span><span class="exp-date en">Jul 2022 – May 2023</span>
+          </div>
+          <div class="exp-role zh">一线教师 · ABA 干预</div><div class="exp-role en">Front-line ABA Therapist</div>
+          <ul class="exp-bullets">
+            <li class="zh">为 2–11 岁 ASD、ADHD、发育迟缓儿童提供一对一直接干预，运用 DTT 与 NET 核心方法</li>
+            <li class="en">Provided 1-on-1 direct intervention for children aged 2–11 with ASD, ADHD, and developmental delays using DTT and NET methodologies</li>
+            <li class="zh"><span class="hi">典型成果：</span>一名 2 岁 8 个月无语言 ASD 儿童，经 3 个月密集干预后医院复查关键发育指标恢复正常水平</li>
+            <li class="en"><span class="hi">Key outcome:</span> A 2-year-8-month-old non-verbal ASD child achieved normal developmental benchmarks on hospital assessment after 3 months of intensive intervention</li>
+            <li class="zh">横跨三段工作经历，累计积累 <span class="hi">5,500+ 小时</span>直接干预经验（2022.07–2026.02），服务年龄范围 2.5–12 岁</li>
+            <li class="en">Accumulated <span class="hi">5,500+ hours</span> of direct ABA intervention experience across all roles (Jul 2022 – Feb 2026), serving children aged 2.5–12</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- VOLUNTEER -->
+      <div class="fu d5">
+        <div class="slabel"><span class="zh">社区活动 & 志愿者经历</span><span class="en">Community Events & Volunteer Experience</span></div>
+        <div class="exp-item" style="border-bottom:none;padding-bottom:0;margin-bottom:0;">
+          <div class="vol-header">
+            <span class="vol-title zh">心理健康社区活动 · 联合组织者</span>
+            <span class="vol-title en">Mental Health Community Events · Co-organizer</span>
+            <span class="vol-date">2025</span>
+          </div>
+          <div class="vol-org zh">广东省（广州 · 深圳 · 珠海）· 社区心理干预公益项目</div>
+          <div class="vol-org en">Guangdong Province (Guangzhou · Shenzhen · Zhuhai) · Community Psychology Initiative</div>
+          <ul class="vol-bullets">
+            <li class="zh">联合策划并执行<span class="hi">心理健康疗愈沙龙、电影疗愈活动</span>，以创意内容驱动社区参与，每场覆盖 20–30 人</li>
+            <li class="en">Co-planned and executed <span class="hi">mental wellness salons and film therapy events</span>, using creative content to drive community engagement with 20–30 participants per session</li>
+            <li class="zh">主导<span class="hi">青少年升学规划讲座</span>，向多元受众传递专业知识，具备将复杂信息转化为易理解内容的能力</li>
+            <li class="en">Led <span class="hi">academic planning talks for youth</span>, translating complex professional knowledge into accessible content for diverse audiences</li>
+            <li class="zh">组织<span class="hi">自闭症最新医疗动向与生活风险规避</span>专题分享，面向家长及照料者群体开展用户教育</li>
+            <li class="en">Organized <span class="hi">ASD medical updates and caregiver risk management</span> sessions, delivering user education to parent and caregiver communities</li>
+            <li class="zh">跨三城协调执行，具备<span class="hi">多地社区运营与规模化活动落地</span>能力</li>
+            <li class="en">Coordinated execution across three cities, demonstrating <span class="hi">multi-location community operations and scalable event delivery</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PROJECT -->
+      <div class="fu d6">
+        <div class="slabel"><span class="zh">个人项目</span><span class="en">Personal Project</span></div>
+        <div class="project-card">
+          <div class="proj-top">
+            <span class="proj-name">Safe-Logic · <span class="zh">智性决策工具</span><span class="en">Behavioral Decision Tool</span></span>
+            <a href="https://grinsunyy.github.io/Risk/" target="_blank" class="proj-link">grinsunyy.github.io/Risk ↗</a>
+          </div>
+          <div class="proj-sub zh">独立开发者 · 2025 · 已上线</div><div class="proj-sub en">Solo Developer · 2025 · Live</div>
+          <ul class="proj-bullets">
+            <li class="zh">独立设计并开发基于行为心理学的逻辑决策工具，整合 <span class="hi">WCCA（决策压力测试）</span>与 <span class="hi">WADM（多维加权决策模型）</span>两套量化分析框架</li>
+            <li class="en">Independently designed and developed a behavioral psychology-based decision tool, integrating <span class="hi">WCCA (decision stress testing)</span> and <span class="hi">WADM (multi-dimensional weighted decision model)</span> frameworks</li>
+            <li class="zh">将 ABA 核心方法论中的客观评估与数据驱动思维转化为可交互用户产品，契合 Web3 治理投票与社区决策场景</li>
+            <li class="en">Translated ABA's objective assessment and data-driven thinking into an interactive product — directly applicable to Web3 governance voting and community decision-making</li>
+            <li class="zh">具备<span class="hi">独立产品从零到一的完整执行能力</span>：需求定义、内容策划、前端开发、发布上线</li>
+            <li class="en">Demonstrated <span class="hi">end-to-end solo product execution</span>: requirements definition, content design, frontend development, and deployment</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="fu d7">
+        <div class="slabel"><span class="zh">教育背景</span><span class="en">Education</span></div>
+        <div class="exp-item">
+          <div class="exp-header"><div><div class="exp-company zh">白俄罗斯波洛茨克国立大学</div><div class="exp-company en">Polotsk State University, Belarus</div></div><span class="exp-date">2020 – 2022</span></div>
+          <div class="exp-role zh">教育心理学 硕士 · GPA 9.4 / 10</div><div class="exp-role en">MSc Educational Psychology · GPA 9.4 / 10</div>
+          <ul class="exp-bullets"><li class="zh">英语夏令营优秀助教（2021 · 白俄罗斯）</li><li class="en">Outstanding Teaching Assistant, English Summer Camp (2021, Belarus)</li></ul>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header"><div><div class="exp-company zh">香港专业培训学会</div><div class="exp-company en">Hong Kong Professional Training Association</div></div><span class="exp-date zh">进行中</span><span class="exp-date en">In Progress</span></div>
+          <div class="exp-role zh">国际行为分析师 IBA/QBA</div><div class="exp-role en">International Behavior Analyst IBA/QBA</div>
+        </div>
+        <div class="exp-item" style="border-bottom:none;padding-bottom:0;margin-bottom:0;">
+          <div class="exp-header"><div><div class="exp-company zh">成都信息工程大学</div><div class="exp-company en">Chengdu University of Information Technology</div><div class="exp-sub zh">银杏酒店管理学院</div><div class="exp-sub en">Yinxing Hospitality Management College</div></div><span class="exp-date">2015 – 2019</span></div>
+          <div class="exp-role zh">工程造价管理 · 管理学学士</div><div class="exp-role en">BSc Engineering Cost Management · Bachelor of Management</div>
+        </div>
+      </div>
+
+      <!-- CLOSING -->
+      <div class="fu d8">
+        <div class="closing">
+          <p class="closing-text zh">Web3 社区的本质是人的聚合。<strong>优秀的社区运营者需要对人类行为和心理有深刻理解</strong>——这正是 ABA 从业者的专业训练核心。我用 4 年时间在最复杂的人际生态中磨练了这套能力，现在我把它带到 Web3。</p>
+          <p class="closing-text en">Web3 communities are, at their core, about people. <strong>Exceptional community managers need a deep understanding of human behavior and psychology</strong> — which is exactly what ABA practitioners are professionally trained for. I spent 4 years honing this in the most complex human ecosystems. Now I bring it to Web3.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script>
+function setLang(lang){
+  document.body.classList.toggle('en-mode',lang==='en');
+  document.querySelectorAll('.lt-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===(lang==='zh'?'中文':'EN')));
+}
+</script>
+</body>
+</html>
