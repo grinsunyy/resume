@@ -97,9 +97,100 @@ body.en-mode .en{display:block;}
 .closing-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;font-style:italic;color:var(--text-muted);line-height:1.85;text-align:center;}
 .closing-text strong{color:var(--gold);font-style:normal;font-weight:600;}
 @media(max-width:700px){.hdr{grid-template-columns:1fr;}.contact{text-align:left;align-items:flex-start;}.body{grid-template-columns:1fr;}.aba-grid{grid-template-columns:1fr;}.target-grid{grid-template-columns:1fr;}.name{font-size:3rem;}.lang-toggle{top:1rem;right:1rem;}}
+
+/* ── VIBE CODE ─────────────────────────────────────────── */
+
+/* Particle canvas */
+#vibe-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;}
+
+/* Cursor glow */
+#cursor-glow{position:fixed;width:340px;height:340px;border-radius:50%;pointer-events:none;z-index:1;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(200,169,110,0.07) 0%,rgba(74,158,138,0.04) 40%,transparent 70%);transition:opacity .3s;mix-blend-mode:screen;}
+
+/* Custom cursor */
+body{cursor:none;}
+#custom-cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s,background .2s;mix-blend-mode:difference;}
+#custom-cursor.big{width:40px;height:40px;background:var(--teal);opacity:.5;}
+a,button,.tag,.name,.project-card,.aba-card,.target-card{cursor:none;}
+
+/* Wrap needs stacking context */
+.wrap{position:relative;z-index:2;}
+.lang-toggle{z-index:200;}
+
+/* 3D tilt on header */
+.hdr-tilt{transform-style:preserve-3d;transition:transform .1s ease;}
+
+/* Glitch on name hover */
+.name{position:relative;cursor:none;}
+.name.glitching{animation:glitch-clip .45s steps(1) infinite;}
+@keyframes glitch-clip{
+  0%  {text-shadow:-2px 0 var(--teal),2px 0 var(--gold);}
+  20% {text-shadow:2px 0 var(--teal),-2px 0 var(--gold);}
+  40% {text-shadow:0 0 none;}
+  60% {text-shadow:-3px 0 var(--gold),3px 0 var(--teal);}
+  80% {text-shadow:none;}
+  100%{text-shadow:none;}
+}
+
+/* Typewriter line */
+#typewriter{font-family:'DM Sans',monospace;font-size:11px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-top:.65rem;min-height:1.2em;opacity:.8;}
+#typewriter::after{content:'▌';animation:blink .9s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* Scroll-reveal for sections */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* Scan line overlay */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px);animation:scanMove 8s linear infinite;}
+@keyframes scanMove{from{background-position:0 0;}to{background-position:0 100px;}}
+
+/* Gold shimmer on section labels */
+.slabel span{background:linear-gradient(90deg,var(--text-dim) 0%,var(--gold) 50%,var(--text-dim) 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;}
+@keyframes shimmer{to{background-position:200% center;}}
+
+/* Tag burst */
+.tag{cursor:none;transition:all .2s;}
+.tag:hover{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);transform:scale(1.05);}
+
+/* Particle burst canvas */
+#burst-canvas{position:fixed;inset:0;z-index:50;pointer-events:none;}
+
+/* Konami overlay */
+#konami-overlay{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,.96);backdrop-filter:blur(8px);}
+#konami-overlay.show{display:flex;}
+#konami-content{text-align:center;animation:fadeUp .5s ease;}
+#konami-title{font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);margin-bottom:1rem;}
+#konami-sub{font-size:13px;color:var(--text-muted);max-width:420px;line-height:1.8;margin-bottom:2rem;}
+#konami-close{padding:8px 22px;border:.5px solid var(--gold-border);background:var(--gold-dim);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;letter-spacing:.1em;border-radius:2px;}
+#konami-close:hover{background:var(--gold);color:#09090b;}
+.konami-stars{font-size:2rem;margin-bottom:.5rem;animation:spinStars 3s linear infinite;}
+@keyframes spinStars{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* Progress bar on scroll */
+#scroll-bar{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));z-index:9999;transition:width .1s;}
+
+/* Floating emoji reactions on click */
+.click-emoji{position:fixed;pointer-events:none;z-index:5000;font-size:1.4rem;animation:floatUp .9s ease forwards;}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
 </style>
 </head>
 <body>
+<canvas id="vibe-canvas"></canvas>
+<canvas id="burst-canvas"></canvas>
+<div id="cursor-glow"></div>
+<div id="custom-cursor"></div>
+<div id="scroll-bar"></div>
+
+<!-- Konami code Easter egg -->
+<div id="konami-overlay">
+  <div id="konami-content">
+    <div class="konami-stars">✦</div>
+    <div id="konami-title">你发现彩蛋了！</div>
+    <div id="konami-sub">Ellie 的 ABA 超能力：她能在 3 秒内识别你的行为动机，判断你是"真的感兴趣"还是"礼貌性浏览简历"。<br><br>目前她正在 Web3 寻找能真正发挥这种能力的团队。</div>
+    <button id="konami-close" onclick="document.getElementById('konami-overlay').classList.remove('show')">继续浏览 ↗</button>
+  </div>
+</div>
+
 <div class="lang-toggle">
   <button class="lt-btn active" onclick="setLang('zh')">中文</button>
   <button class="lt-btn" onclick="setLang('en')">EN</button>
@@ -115,6 +206,7 @@ body.en-mode .en{display:block;}
         <span class="zh">Web3 社区运营 · Community Manager</span>
         <span class="en">Web3 Community Manager · Open to Remote</span>
       </div>
+      <div id="typewriter"></div>
     </div>
     <div class="contact">
       <div class="contact-row">📱 <a href="tel:+8615919178024">+86 159-1917-8024</a></div>
@@ -370,10 +462,168 @@ body.en-mode .en{display:block;}
   </div>
 </div>
 <script>
+/* ── LANG TOGGLE ─────────────────────────────────────── */
 function setLang(lang){
   document.body.classList.toggle('en-mode',lang==='en');
   document.querySelectorAll('.lt-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===(lang==='zh'?'中文':'EN')));
 }
+
+/* ── CUSTOM CURSOR ───────────────────────────────────── */
+const cur = document.getElementById('custom-cursor');
+let cx=0,cy=0;
+document.addEventListener('mousemove',e=>{
+  cx=e.clientX;cy=e.clientY;
+  cur.style.left=cx+'px';cur.style.top=cy+'px';
+});
+document.querySelectorAll('a,button,.tag,.name,.project-card,.aba-card,.target-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+/* ── CURSOR GLOW ─────────────────────────────────────── */
+const glow = document.getElementById('cursor-glow');
+let mx=window.innerWidth/2, my=window.innerHeight/2;
+let gx=mx, gy=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function animGlow(){
+  gx+=(mx-gx)*.06; gy+=(my-gy)*.06;
+  glow.style.left=gx+'px'; glow.style.top=gy+'px';
+  requestAnimationFrame(animGlow);
+})();
+
+/* ── SCROLL PROGRESS BAR ─────────────────────────────── */
+const scrollBar = document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{
+  const p = window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  scrollBar.style.width=p+'%';
+});
+
+/* ── PARTICLE CANVAS ─────────────────────────────────── */
+const canvas = document.getElementById('vibe-canvas');
+const ctx = canvas.getContext('2d');
+let W,H,pts=[];
+const GOLD='rgba(200,169,110,', TEAL='rgba(74,158,138,';
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize(); window.addEventListener('resize',resize);
+function mkPt(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.4+.4,c:Math.random()>.5?GOLD:TEAL};}
+for(let i=0;i<68;i++)pts.push(mkPt());
+function drawParticles(){
+  ctx.clearRect(0,0,W,H);
+  for(let i=0;i<pts.length;i++){
+    const p=pts[i];
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c+'0.6)';ctx.fill();
+    for(let j=i+1;j<pts.length;j++){
+      const q=pts[j];
+      const dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+        ctx.strokeStyle=p.c+(1-d/120)*0.18+')';ctx.lineWidth=.5;ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ── BURST PARTICLES ON CLICK ────────────────────────── */
+const bc = document.getElementById('burst-canvas');
+const bctx = bc.getContext('2d');
+bc.width=window.innerWidth;bc.height=window.innerHeight;
+window.addEventListener('resize',()=>{bc.width=window.innerWidth;bc.height=window.innerHeight;});
+let bursts=[];
+document.addEventListener('click',e=>{
+  for(let i=0;i<18;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=Math.random()*4+1.5;
+    bursts.push({x:e.clientX,y:e.clientY,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,r:Math.random()*3+1,c:Math.random()>.5?GOLD:TEAL});
+  }
+});
+function drawBursts(){
+  bctx.clearRect(0,0,bc.width,bc.height);
+  bursts=bursts.filter(b=>b.life>0);
+  bursts.forEach(b=>{
+    b.x+=b.vx;b.y+=b.vy;b.vy+=.12;b.life-=.035;
+    bctx.beginPath();bctx.arc(b.x,b.y,b.r*b.life,0,Math.PI*2);
+    bctx.fillStyle=b.c+b.life+')';bctx.fill();
+  });
+  requestAnimationFrame(drawBursts);
+}
+drawBursts();
+
+/* ── FLOATING EMOJI ON CLICK ─────────────────────────── */
+const emojis=['✦','⬡','◈','⊕','✺','⬟'];
+document.addEventListener('click',e=>{
+  if(e.target.closest('#konami-overlay')) return;
+  const el=document.createElement('div');
+  el.className='click-emoji';
+  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;color:${Math.random()>.5?'#c8a96e':'#4a9e8a'};font-size:${Math.random()*.8+.9}rem;`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),900);
+});
+
+/* ── 3D TILT ON HEADER ───────────────────────────────── */
+const hdr = document.querySelector('.hdr');
+hdr && hdr.addEventListener('mousemove',e=>{
+  const r=hdr.getBoundingClientRect();
+  const rx=((e.clientY-r.top)/r.height-.5)*6;
+  const ry=((e.clientX-r.left)/r.width-.5)*-6;
+  hdr.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+});
+hdr && hdr.addEventListener('mouseleave',()=>{hdr.style.transform='none';});
+
+/* ── NAME GLITCH ─────────────────────────────────────── */
+document.querySelectorAll('.name').forEach(n=>{
+  n.addEventListener('mouseenter',()=>n.classList.add('glitching'));
+  n.addEventListener('mouseleave',()=>n.classList.remove('glitching'));
+});
+
+/* ── SCROLL REVEAL ──────────────────────────────────── */
+document.querySelectorAll('.fu').forEach(el=>el.classList.add('reveal'));
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ── TYPEWRITER ─────────────────────────────────────── */
+const twEl = document.getElementById('typewriter');
+const phrases = [
+  'ABA × Web3 · Community Builder',
+  'Behavioral Science → Human Ecosystems',
+  'Data-Driven · People-First · On-Chain',
+  '5,500+ hrs intervention · Open to Remote',
+  '[ Press ↑↑↓↓←→←→BA for surprise ]'
+];
+let pi=0,ci=0,deleting=false,wait=0;
+function typeStep(){
+  const ph=phrases[pi];
+  if(wait>0){wait--;setTimeout(typeStep,60);return;}
+  if(!deleting){
+    twEl.textContent=ph.slice(0,++ci);
+    if(ci===ph.length){deleting=true;wait=38;}
+    setTimeout(typeStep,72);
+  } else {
+    twEl.textContent=ph.slice(0,--ci);
+    if(ci===0){deleting=false;pi=(pi+1)%phrases.length;wait=10;}
+    setTimeout(typeStep,32);
+  }
+}
+setTimeout(typeStep,900);
+
+/* ── KONAMI CODE ─────────────────────────────────────── */
+const KONAMI=[38,38,40,40,37,39,37,39,66,65];
+let ki=0;
+document.addEventListener('keydown',e=>{
+  if(e.keyCode===KONAMI[ki])ki++;else ki=0;
+  if(ki===KONAMI.length){
+    document.getElementById('konami-overlay').classList.add('show');
+    ki=0;
+  }
+});
 </script>
 </body>
 </html>
