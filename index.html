@@ -1,29 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>刘媛媛 · Ellie Liu · Web3 Community Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#09090b;--surface:#111113;--surface2:#18181c;--gold:#c8a96e;--gold-dim:rgba(200,169,110,0.1);--gold-border:rgba(200,169,110,0.22);--teal:#4a9e8a;--text:#e4e0d8;--text-muted:#7a7670;--text-dim:#3e3d3a;--border:rgba(255,255,255,0.055);}
+:root{
+  --bg:#09090b;--surface:#111113;--surface2:#18181c;
+  --gold:#c8a96e;--gold-dim:rgba(200,169,110,0.09);--gold-border:rgba(200,169,110,0.22);
+  --teal:#4a9e8a;--text:#e4e0d8;--text-muted:#7a7670;--text-dim:#3e3d3a;
+  --border:rgba(255,255,255,0.055);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+/* ── Animations ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 @keyframes lineGrow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
 .fu{opacity:0;animation:fadeUp .6s ease forwards;}
-.d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}.d5{animation-delay:.36s}.d6{animation-delay:.44s}.d7{animation-delay:.52s}.d8{animation-delay:.6s}
-.lang-toggle{position:fixed;top:1.5rem;right:1.5rem;z-index:100;display:flex;background:var(--surface);border:.5px solid var(--border);border-radius:3px;overflow:hidden;}
-.lt-btn{padding:6px 14px;font-size:11px;letter-spacing:.08em;cursor:pointer;border:none;background:transparent;color:var(--text-muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
+.d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}
+.d4{animation-delay:.28s}.d5{animation-delay:.36s}.d6{animation-delay:.44s}
+.d7{animation-delay:.52s}.d8{animation-delay:.6s}.d9{animation-delay:.68s}
+
+/* ── Language toggle ── */
+.lang-toggle{position:fixed;top:1.5rem;right:1.5rem;z-index:300;display:flex;background:var(--surface);border:.5px solid var(--border);border-radius:3px;overflow:hidden;}
+.lt-btn{padding:6px 12px;font-size:11px;letter-spacing:.07em;cursor:none;border:none;background:transparent;color:var(--text-muted);transition:all .2s;font-family:'DM Sans',sans-serif;}
 .lt-btn.active{background:var(--gold-dim);color:var(--gold);}
 .lt-btn:hover:not(.active){color:var(--text);}
-.en{display:block;}.es{display:none;}.zh{display:none;}
-body.es-mode .en{display:none;}body.es-mode .es{display:block;}body.es-mode .zh{display:none;}
-body.zh-mode .en{display:none;}body.zh-mode .zh{display:block;}body.zh-mode .es{display:none;}
-.wrap{max-width:980px;margin:0 auto;padding:4rem 2.5rem 7rem;}
+
+/* ── Language visibility ── */
+.zh,.en,.es{display:none;}
+body.lang-zh .zh{display:block;}
+body.lang-en .en{display:block;}
+body.lang-es .es{display:block;}
+/* Inline spans */
+span.zh,span.en,span.es{display:none;}
+body.lang-zh span.zh{display:inline;}
+body.lang-en span.en{display:inline;}
+body.lang-es span.es{display:inline;}
+
+/* ── Layout ── */
+.wrap{max-width:980px;margin:0 auto;padding:4rem 2.5rem 7rem;position:relative;z-index:2;}
 .hdr{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;padding-bottom:2.5rem;margin-bottom:3rem;position:relative;}
-.hdr-line{position:absolute;bottom:0;left:0;right:0;height:.5px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,169,110,0.08) 70%,transparent 100%);transform-origin:left;animation:lineGrow 1.1s cubic-bezier(.4,0,.2,1) forwards .2s;transform:scaleX(0);}
+.hdr-line{position:absolute;bottom:0;left:0;right:0;height:.5px;background:linear-gradient(90deg,var(--gold) 0%,rgba(200,169,110,.08) 70%,transparent 100%);transform-origin:left;animation:lineGrow 1.1s cubic-bezier(.4,0,.2,1) forwards .2s;transform:scaleX(0);}
 .name{font-family:'Cormorant Garamond',serif;font-size:4.6rem;font-weight:300;line-height:.92;letter-spacing:-.015em;}
 .name-sub{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--gold);margin-top:.5rem;letter-spacing:.05em;}
 .badge{display:inline-flex;align-items:center;gap:8px;margin-top:.9rem;padding:5px 13px;border:.5px solid var(--gold-border);border-radius:2px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);}
@@ -32,46 +53,807 @@ body.zh-mode .en{display:none;}body.zh-mode .zh{display:block;}body.zh-mode .es{
 .contact-row{font-size:12px;color:var(--text-muted);font-weight:300;display:flex;align-items:center;justify-content:flex-end;gap:7px;}
 .contact-row a{color:var(--text-muted);text-decoration:none;transition:color .2s;}
 .contact-row a:hover{color:var(--gold);}
-.body{display:grid;grid-template-columns:240px 1fr;gap:4rem;}
+.contact-icon{width:12px;height:12px;opacity:.4;}
+
+/* ── Body grid ── */
+.body{display:grid;grid-template-columns:230px 1fr;gap:4rem;}
+.sidebar{display:flex;flex-direction:column;gap:2.25rem;}
+.main{display:flex;flex-direction:column;gap:2.5rem;}
+
+/* ── Section label ── */
 .slabel{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.1rem;display:flex;align-items:center;gap:10px;}
 .slabel::after{content:'';flex:1;height:.5px;background:var(--border);}
-.sidebar{display:flex;flex-direction:column;gap:2.25rem;}
+
+/* ── Summary card ── */
+.summary-card{background:var(--surface);border:.5px solid var(--border);border-radius:3px;padding:1.4rem 1.5rem;}
+.summary-text{font-size:13px;color:var(--text-muted);line-height:1.85;font-weight:300;}
+.summary-text strong,.hi{color:var(--text);font-weight:400;}
+
+/* ── ABA table ── */
+.aba-section{margin-bottom:0;}
+.aba-grid{display:flex;flex-direction:column;gap:8px;}
+.aba-card{background:var(--surface);border:.5px solid var(--border);border-radius:3px;padding:1rem 1.2rem;transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s ease,border-color .3s;}
+.aba-card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 0 .5px rgba(200,169,110,.12);}
+.aba-top{display:flex;align-items:flex-start;gap:.8rem;}
+.aba-icon{font-size:1rem;margin-top:1px;opacity:.7;}
+.aba-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.aba-arrow{font-size:10px;color:var(--teal);margin-bottom:3px;letter-spacing:.03em;}
+.aba-desc{font-size:11.5px;color:var(--text-muted);line-height:1.7;margin-top:6px;}
+
+/* ── Experience ── */
+.exp-item{border-left:.5px solid var(--border);padding-left:1.2rem;margin-bottom:1.8rem;transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s ease;}
+.exp-item:hover{transform:translateX(2px);}
+.exp-item:last-child{margin-bottom:0;}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.3rem;gap:1rem;}
+.exp-role{font-size:13px;font-weight:500;color:var(--text);}
+.exp-date{font-size:11px;color:var(--text-dim);white-space:nowrap;flex-shrink:0;}
+.exp-company{font-size:12px;color:var(--gold);margin-bottom:.15rem;}
+.exp-sub{font-size:11px;color:var(--text-muted);margin-bottom:.7rem;}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.exp-list li{font-size:12.5px;color:var(--text-muted);padding-left:1rem;position:relative;line-height:1.7;}
+.exp-list li::before{content:'—';position:absolute;left:0;color:var(--text-dim);}
+
+/* ── Projects ── */
+.project-card{background:var(--surface);border:.5px solid var(--border);border-radius:3px;padding:1.1rem 1.3rem;margin-bottom:.75rem;transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s ease,border-color .3s;}
+.project-card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 0 .5px rgba(200,169,110,.12);}
+.project-card:last-child{margin-bottom:0;}
+.proj-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.25rem;}
+.proj-title{font-size:13px;font-weight:500;color:var(--text);}
+.proj-link{font-size:10.5px;color:var(--teal);text-decoration:none;letter-spacing:.04em;}
+.proj-link:hover{color:var(--gold);}
+.proj-sub{font-size:11px;color:var(--text-muted);margin-bottom:.6rem;}
+.proj-list{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.proj-list li{font-size:12px;color:var(--text-muted);padding-left:1rem;position:relative;line-height:1.65;}
+.proj-list li::before{content:'—';position:absolute;left:0;color:var(--text-dim);}
+
+/* ── Education ── */
+.edu-item{margin-bottom:1.4rem;}
+.edu-item:last-child{margin-bottom:0;}
+.edu-degree{font-size:13px;font-weight:500;color:var(--text);}
+.edu-gpa{color:var(--gold);font-weight:400;}
+.edu-school{font-size:12px;color:var(--text-muted);margin:.2rem 0;}
+.edu-date{font-size:11px;color:var(--text-dim);}
+.edu-note{font-size:11.5px;color:var(--text-muted);margin-top:.4rem;padding-left:.9rem;border-left:.5px solid var(--border);}
+
+/* ── Sidebar modules ── */
 .intro{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:300;font-style:italic;color:var(--text-muted);line-height:1.85;}
 .skill-group{margin-bottom:.9rem;}
-.sg-name{font-size:10.5px;color:var(--gold);margin-bottom:6px;font-weight:500;}
+.sg-name{font-size:10.5px;color:var(--gold);margin-bottom:6px;font-weight:500;letter-spacing:.04em;}
 .tags{display:flex;flex-wrap:wrap;gap:4px;}
-.tag{font-size:11px;padding:3px 9px;border:.5px solid var(--border);border-radius:2px;color:var(--text-muted);background:var(--surface);transition:all .2s;cursor:default;}
-.tag:hover{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);}
-.lang-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.lang-name{font-size:12px;color:var(--text);min-width:56px;}
-.lang-bar{width:88px;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.tag{font-size:11px;padding:3px 9px;border:.5px solid var(--border);border-radius:2px;color:var(--text-muted);background:var(--surface);}
+.cert-item{font-size:12px;color:var(--text-muted);line-height:1.7;margin-bottom:.5rem;}
+.cert-item:last-child{margin-bottom:0;}
+.cert-badge{display:inline-block;font-size:10px;color:var(--teal);border:.5px solid rgba(74,158,138,.3);border-radius:2px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
+
+/* ── Language bars ── */
+.lang-item{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
+.lang-name{font-size:12px;color:var(--text);min-width:62px;}
+.lang-bar{width:80px;height:2.5px;background:var(--surface2);border-radius:2px;overflow:hidden;}
 .lang-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--gold));}
-.lang-level{font-size:10px;color:var(--text-dim);min-width:52px;text-align:right;}
-.main{display:flex;flex-direction:column;gap:2.5rem;}
-.summary-card{background:var(--surface);border:.5px solid var(--border);border-left:2px solid var(--gold);border-radius:2px;padding:1.25rem 1.4rem;}
-.summary-text{font-size:13px;color:var(--text-muted);line-height:1.85;}
-.summary-text strong{color:var(--gold);font-weight:500;}
-.target-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.target-card{background:var(--surface);border:.5px solid var(--border);border-radius:2px;padding:.75rem 1rem;transition:border-color .2s;}
-.target-card:hover{border-color:var(--gold-border);}
-.target-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:2px;background:rgba(74,158,138,0.1);color:var(--teal);border:.5px solid rgba(74,158,138,0.25);margin-bottom:5px;}
-.target-role{font-size:12.5px;font-weight:500;color:var(--text);margin-bottom:3px;}
-.target-desc{font-size:11px;color:var(--text-muted);line-height:1.55;}
-.aba-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.aba-card{background:var(--surface);border:.5px solid var(--border);border-radius:2px;padding:1rem 1.1rem;transition:border-color .25s;}
-.aba-card:hover{border-color:var(--gold-border);}
-.aba-top{display:flex;align-items:flex-start;gap:9px;margin-bottom:6px;}
-.aba-icon{min-width:24px;height:24px;border-radius:2px;background:var(--gold-dim);border:.5px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-size:11px;}
-.aba-title{font-size:11.5px;font-weight:500;color:var(--text);margin-bottom:2px;}
-.aba-web3{font-size:10.5px;color:var(--teal);}
-.aba-desc{font-size:11.5px;color:var(--text-muted);line-height:1.65;}
-.exp-item{padding-bottom:1.75rem;margin-bottom:1.75rem;border-bottom:.5px solid var(--border);}
-.exp-item:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
-.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:.3rem;}
-.exp-company{font-size:14px;font-weight:500;color:var(--text);}
-.exp-date{font-size:11px;color:var(--text-dim);white-space:nowrap;padding-top:2px;}
-.exp-role{font-size:12px;color:var(--gold);margin-bottom:.5rem;}
-.exp-sub{font-size:11px;color:var(--text-dim);margin-top:2px;}
-.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:5px;}
-.exp-bullets li{font-size:12.5px;color:var(--text-muted);padding-left:14px;position:relative;line-height:1.7;}
-.exp-bullets li
+.lang-level{font-size:10px;color:var(--text-dim);min-width:60px;text-align:right;}
+
+/* ── Closing ── */
+.closing{border:.5px solid var(--gold-border);border-radius:3px;padding:1.5rem 1.8rem;text-align:center;background:var(--gold-dim);margin-top:3rem;}
+.closing-text{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:var(--text-muted);line-height:1.85;}
+.closing-cta{display:inline-block;margin-top:.8rem;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+
+/* ── Typewriter ── */
+#typewriter{font-size:10.5px;letter-spacing:.22em;color:var(--teal);text-transform:uppercase;margin-top:.8rem;min-height:1.1em;opacity:.7;}
+#typewriter::after{content:'▎';animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* ── Responsive ── */
+@media(max-width:700px){
+  .hdr{grid-template-columns:1fr;}.contact{text-align:left;align-items:flex-start;}
+  .body{grid-template-columns:1fr;}.name{font-size:3rem;}.lang-toggle{top:.8rem;right:.8rem;}
+}
+
+/* ══════════════════════════════════════════
+   VIBE — REFINED PROFESSIONAL EDITION
+══════════════════════════════════════════ */
+
+/* Noise texture */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.02;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;}
+
+/* Vignette */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 85% 75% at 50% 35%,transparent 38%,rgba(0,0,0,.48) 100%);}
+
+/* Particle canvas */
+#vibe-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.38;}
+
+/* Cursor glow */
+#cursor-glow{position:fixed;width:500px;height:500px;border-radius:50%;pointer-events:none;z-index:2;
+  transform:translate(-50%,-50%);mix-blend-mode:screen;will-change:left,top;
+  background:radial-gradient(circle,rgba(200,169,110,.05) 0%,rgba(74,158,138,.025) 40%,transparent 68%);}
+
+/* Custom cursor — refined crosshair */
+body{cursor:none;}
+#custom-cursor{position:fixed;pointer-events:none;z-index:9999;width:0;height:0;transform:translate(-50%,-50%);}
+#custom-cursor::before,#custom-cursor::after{content:'';position:absolute;background:var(--gold);
+  transition:width .25s cubic-bezier(.22,1,.36,1),height .25s cubic-bezier(.22,1,.36,1),opacity .2s;opacity:.6;}
+#custom-cursor::before{width:18px;height:.8px;top:0;left:-9px;}
+#custom-cursor::after{width:.8px;height:18px;top:-9px;left:0;}
+#custom-cursor.big::before{width:30px;opacity:.9;}
+#custom-cursor.big::after{height:30px;opacity:.9;}
+a,button,.tag,.name,.project-card,.aba-card,.exp-item{cursor:none;}
+
+/* Scroll bar — 1px hairline */
+#scroll-bar{position:fixed;top:0;left:0;height:1px;width:0%;z-index:9998;pointer-events:none;
+  background:linear-gradient(90deg,rgba(74,158,138,0),var(--teal) 20%,var(--gold) 80%,rgba(200,169,110,0));
+  transition:width .1s linear;}
+
+/* Burst canvas */
+#burst-canvas{position:fixed;inset:0;z-index:50;pointer-events:none;}
+
+/* Scanlines */
+.scanlines{position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.02) 2px,rgba(0,0,0,.02) 4px);}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:none;}
+
+/* Name glitch */
+.name{cursor:none;transition:text-shadow .4s ease;}
+.name.glitching{animation:glitch .5s steps(1) infinite;}
+@keyframes glitch{
+  0%  {text-shadow:-3px 0 var(--teal),3px 0 rgba(200,169,110,.6);}
+  15% {text-shadow:3px 0 var(--teal),-3px 0 rgba(200,169,110,.6);}
+  30% {text-shadow:none;}
+  45% {text-shadow:-2px 0 var(--gold),2px 0 rgba(74,158,138,.6);}
+  60% {text-shadow:2px 0 var(--gold),-2px 0 rgba(74,158,138,.6);}
+  75%,100%{text-shadow:none;}
+}
+
+/* Section label sweep */
+.slabel span{background:linear-gradient(90deg,var(--text-dim) 0%,var(--gold) 50%,var(--text-dim) 100%);
+  background-size:240% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:sweep 6s ease-in-out infinite;}
+@keyframes sweep{0%,100%{background-position:0% center;}50%{background-position:100% center;}}
+
+/* Tag hover */
+.tag{cursor:none;transition:all .22s ease;}
+.tag:hover{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);transform:translateY(-1px);}
+
+/* Floating symbols */
+.click-sym{position:fixed;pointer-events:none;z-index:5000;font-size:1rem;
+  animation:symFloat 1s cubic-bezier(.22,1,.36,1) forwards;}
+@keyframes symFloat{0%{opacity:.8;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-64px) scale(.7);}}
+
+/* Konami overlay */
+#konami-overlay{position:fixed;inset:0;z-index:9000;display:none;flex-direction:column;
+  align-items:center;justify-content:center;background:rgba(9,9,11,.97);backdrop-filter:blur(14px) saturate(.8);}
+#konami-overlay.show{display:flex;}
+#konami-content{text-align:center;max-width:540px;padding:0 2rem;
+  animation:konamiIn .65s cubic-bezier(.22,1,.36,1) forwards;opacity:0;}
+@keyframes konamiIn{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+.k-eyebrow{font-size:9.5px;letter-spacing:.3em;color:var(--teal);text-transform:uppercase;margin-bottom:1.5rem;opacity:.7;}
+.k-title{font-family:'Cormorant Garamond',serif;font-size:2.7rem;font-weight:300;color:var(--gold);line-height:1.15;margin-bottom:1rem;}
+.k-divider{width:40px;height:.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 1.4rem;}
+.k-body{font-size:13px;color:var(--text-muted);line-height:1.9;margin-bottom:2rem;font-weight:300;}
+.k-body strong{color:var(--text);font-weight:400;}
+#konami-close{display:inline-flex;align-items:center;gap:8px;padding:9px 26px;
+  border:.5px solid var(--gold-border);background:transparent;color:var(--gold);
+  font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;letter-spacing:.14em;text-transform:uppercase;
+  transition:background .25s,color .25s;}
+#konami-close:hover{background:var(--gold);color:#09090b;}
+.k-hint{margin-top:2.5rem;font-size:10px;color:var(--text-dim);letter-spacing:.1em;}
+
+/* Closing breathe */
+.closing{animation:breathe 7s ease-in-out infinite;}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 rgba(200,169,110,0);}50%{box-shadow:0 0 32px rgba(200,169,110,.08),0 0 64px rgba(74,158,138,.04);}}
+</style>
+</head>
+<body class="lang-en">
+
+<canvas id="vibe-canvas"></canvas>
+<canvas id="burst-canvas"></canvas>
+<div class="scanlines"></div>
+<div id="cursor-glow"></div>
+<div id="custom-cursor"></div>
+<div id="scroll-bar"></div>
+
+<!-- Konami Easter Egg — trilingual -->
+<div id="konami-overlay">
+  <div id="konami-content">
+    <div class="k-eyebrow" id="k-eyebrow-zh">彩蛋解锁</div>
+    <div class="k-eyebrow" id="k-eyebrow-en" style="display:none">Secret Unlocked</div>
+    <div class="k-eyebrow" id="k-eyebrow-es" style="display:none">Secreto Desbloqueado</div>
+
+    <div class="k-title zh">行为科学家的视角</div>
+    <div class="k-title en">The Behaviorist's Lens</div>
+    <div class="k-title es">La Perspectiva del Conductista</div>
+
+    <div class="k-divider"></div>
+
+    <div class="k-body zh">ABA 的核心是<strong>读懂行为背后的动机</strong>，并设计出让人自然而然做出改变的环境。<br><br>Ellie 把这套方法带进了 Web3——不是管理社区，而是<strong>塑造社区行为</strong>。5,500+ 小时的实战，让她在任何混乱的生态里都能找到秩序。</div>
+    <div class="k-body en">ABA is about <strong>reading the motivation behind every behavior</strong> — then designing environments where the right actions become effortless.<br><br>Ellie brings this into Web3: not managing communities, but <strong>shaping community behavior</strong>. 5,500+ hours of real-world practice means she finds signal in any noise.</div>
+    <div class="k-body es">ABA consiste en <strong>leer la motivación detrás de cada comportamiento</strong> — y luego diseñar entornos donde las acciones correctas surjan de forma natural.<br><br>Ellie lleva esto al Web3: no gestiona comunidades, sino que <strong>moldea el comportamiento comunitario</strong>. Más de 5,500 horas de práctica real significan que encuentra señal en cualquier ruido.</div>
+
+    <button id="konami-close">
+      <span class="zh">继续探索 ↗</span>
+      <span class="en">Continue ↗</span>
+      <span class="es">Continuar ↗</span>
+    </button>
+    <div class="k-hint">↑↑↓↓←→←→BA</div>
+  </div>
+</div>
+
+<!-- Language toggle -->
+<div class="lang-toggle">
+  <button class="lt-btn active" onclick="setLang('en')">EN</button>
+  <button class="lt-btn" onclick="setLang('es')">ES</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ HEADER ══ -->
+  <header class="hdr fu d1">
+    <div>
+      <div class="name en">Liu Yuanyuan (Ellie)</div>
+      <div class="name es">Liu Yuanyuan (Ellie)</div>
+
+      <div class="name-sub en">Applied Behavior Analyst · Transitioning to Web3</div>
+      <div class="name-sub es">Analista de Conducta Aplicada · Transición al Web3</div>
+
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span class="en">ABA Practitioner · Seeking Entry into Web3 · Open to Remote</span>
+        <span class="es">Practicante ABA · Buscando Entrada al Web3 · Trabajo Remoto</span>
+      </div>
+      <div id="typewriter"></div>
+    </div>
+    <div class="contact">
+      <div class="contact-row">
+        <svg class="contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M1 4l7 5 7-5"/></svg>
+        <a href="mailto:eleanorliuy@gmail.com">eleanorliuy@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <svg class="contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1a5 5 0 100 10A5 5 0 008 1z"/><path d="M8 1v14M1 8h14"/></svg>
+        <a href="https://grinsunyy.github.io/Risk" target="_blank">grinsunyy.github.io/Risk</a>
+      </div>
+      <div class="contact-row">
+        <svg class="contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 2h12v11H2z"/><path d="M5 2V1M11 2V1M2 6h12"/></svg>
+        <span class="zh">+86 159-1917-8024</span>
+        <span class="en">+86 159-1917-8024</span>
+        <span class="es">+86 159-1917-8024</span>
+      </div>
+      <div class="contact-row">
+        <svg class="contact-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="7" r="3"/><path d="M8 1a6 6 0 00-6 6c0 4 6 9 6 9s6-5 6-9a6 6 0 00-6-6z"/></svg>
+        <span class="zh">广州 / 深圳</span>
+        <span class="en">Guangzhou / Shenzhen, China</span>
+        <span class="es">Guangzhou / Shenzhen, China</span>
+      </div>
+    </div>
+    <div class="hdr-line"></div>
+  </header>
+
+  <!-- ══ BODY ══ -->
+  <div class="body">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+
+      <!-- Intro -->
+      <div class="fu d2">
+        <div class="intro en">5,500+ hours measuring<br>and changing behavior.<br>Now applying that<br>to community operations.</div>
+        <div class="intro es">Más de 5,500 horas midiendo<br>y cambiando conductas.<br>Ahora aplicándolo<br>a operaciones comunitarias.</div>
+      </div>
+
+      <!-- Skills -->
+      <div class="fu d3">
+        <div class="slabel"><span class="zh">核心技能</span><span class="en">Core Skills</span><span class="es">Habilidades</span></div>
+
+        <div class="skill-group">
+          <div class="sg-name zh">ABA 方法论</div>
+          <div class="sg-name en">ABA Methodology</div>
+          <div class="sg-name es">Metodología ABA</div>
+          <div class="tags">
+            <span class="tag">DTT</span>
+            <span class="tag">NET</span>
+            <span class="tag">PECS</span>
+            <span class="tag">VB-MAPP</span>
+            <span class="tag">ABLLS-R</span>
+            <span class="tag"><span class="zh">行为塑造</span><span class="en">Shaping</span><span class="es">Moldeamiento</span></span>
+            <span class="tag"><span class="zh">动机操控</span><span class="en">Motivating Ops</span><span class="es">Op. Motivación</span></span>
+            <span class="tag"><span class="zh">ABC 分析</span><span class="en">ABC Analysis</span><span class="es">Análisis ABC</span></span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="sg-name zh">社区 & 运营</div>
+          <div class="sg-name en">Community & Ops</div>
+          <div class="sg-name es">Comunidad & Ops</div>
+          <div class="tags">
+            <span class="tag"><span class="zh">社区健康监控</span><span class="en">Community Health</span><span class="es">Salud Comunitaria</span></span>
+            <span class="tag"><span class="zh">危机沟通</span><span class="en">Crisis Comms</span><span class="es">Crisis Comms</span></span>
+            <span class="tag"><span class="zh">大使计划</span><span class="en">Ambassador Prog.</span><span class="es">Prog. Embajadores</span></span>
+            <span class="tag"><span class="zh">利益相关者管理</span><span class="en">Stakeholder Mgmt</span><span class="es">Gestión Partes</span></span>
+            <span class="tag"><span class="zh">活动统筹</span><span class="en">Event Coord.</span><span class="es">Coord. Eventos</span></span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="sg-name zh">产品 & 工具</div>
+          <div class="sg-name en">Product & Tools</div>
+          <div class="sg-name es">Producto & Herram.</div>
+          <div class="tags">
+            <span class="tag"><span class="zh">前端开发</span><span class="en">Frontend Dev</span><span class="es">Dev. Frontend</span></span>
+            <span class="tag">GitHub Pages</span>
+            <span class="tag">WCCA</span>
+            <span class="tag">WADM</span>
+            <span class="tag"><span class="zh">数据分析</span><span class="en">Data Analytics</span><span class="es">Análisis de Datos</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="fu d4">
+        <div class="slabel"><span class="zh">语言能力</span><span class="en">Languages</span><span class="es">Idiomas</span></div>
+        <div class="lang-item">
+          <div class="lang-name"><span class="zh">普通话</span><span class="en">Mandarin</span><span class="es">Mandarín</span></div>
+          <div class="lang-bar"><div class="lang-fill" style="width:100%"></div></div>
+          <div class="lang-level"><span class="zh">母语</span><span class="en">Native</span><span class="es">Nativo</span></div>
+        </div>
+        <div class="lang-item">
+          <div class="lang-name"><span class="zh">粤语</span><span class="en">Cantonese</span><span class="es">Cantonés</span></div>
+          <div class="lang-bar"><div class="lang-fill" style="width:72%"></div></div>
+          <div class="lang-level"><span class="zh">日常交流</span><span class="en">Conversational</span><span class="es">Conversacional</span></div>
+        </div>
+        <div class="lang-item">
+          <div class="lang-name">English</div>
+          <div class="lang-bar"><div class="lang-fill" style="width:50%"></div></div>
+          <div class="lang-level"><span class="zh">职业工作</span><span class="en">Professional</span><span class="es">Profesional</span></div>
+        </div>
+        <div class="lang-item">
+          <div class="lang-name">Русский</div>
+          <div class="lang-bar"><div class="lang-fill" style="width:18%"></div></div>
+          <div class="lang-level"><span class="zh">基础</span><span class="en">Elementary</span><span class="es">Básico</span></div>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="fu d5">
+        <div class="slabel"><span class="zh">资质认证</span><span class="en">Certifications</span><span class="es">Certificaciones</span></div>
+        <div class="cert-item">
+          <span class="zh">国际行为分析师（IBA/QBA）<span class="cert-badge">进行中</span></span>
+          <span class="en">International Behavior Analyst (IBA/QBA)<span class="cert-badge">In Progress</span></span>
+          <span class="es">Analista de Conducta Internacional (IBA/QBA)<span class="cert-badge">En Curso</span></span>
+        </div>
+        <div class="cert-item">
+          <span class="zh">香港专业培训协会认证 · 5,500+ 小时 ABA 临床实践</span>
+          <span class="en">HK Professional Training Assoc. · 5,500+ hrs certified ABA practice</span>
+          <span class="es">Asoc. Profesional de Formación HK · 5,500+ hrs práctica ABA certificada</span>
+        </div>
+      </div>
+
+      <!-- Hobbies / context -->
+      <div class="fu d6">
+        <div class="slabel"><span class="zh">兴趣</span><span class="en">Interests</span><span class="es">Intereses</span></div>
+        <div class="tags">
+          <span class="tag"><span class="zh">行为经济学</span><span class="en">Behavioral Economics</span><span class="es">Econ. Conductual</span></span>
+          <span class="tag"><span class="zh">社区设计</span><span class="en">Community Design</span><span class="es">Diseño Comunitario</span></span>
+          <span class="tag"><span class="zh">心理健康</span><span class="en">Mental Health</span><span class="es">Salud Mental</span></span>
+          <span class="tag"><span class="zh">电影疗愈</span><span class="en">Film Therapy</span><span class="es">Terapia Fílmica</span></span>
+          <span class="tag"><span class="zh">养猫</span><span class="en">Cats</span><span class="es">Gatos</span></span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main">
+
+      <!-- Summary -->
+      <section class="fu d2">
+        <div class="slabel"><span class="zh">个人简介</span><span class="en">Summary</span><span class="es">Perfil</span></div>
+        <div class="summary-card">
+          <p class="summary-text zh">行为心理学专业背景转型 Web3 社区运营，持有教育心理学硕士学位（<strong>GPA 9.4/10</strong>），拥有 <strong>5,500+ 小时</strong> ABA 临床实践。将临床严谨性转化为社区运营能力：数据驱动的行为观察、动机设计、用户旅程架构与危机沟通。独立设计并上线了一款基于行为心理学的决策工具 Safe-Logic。</p>
+          <p class="summary-text en">Behavioral psychology professional transitioning into Web3 community operations, with an MSc in Educational Psychology (<strong>GPA 9.4/10</strong>) and <strong>5,500+ hours</strong> of ABA practice. Translates clinical rigor into community ops: data-driven behavioral observation, motivation design, user-journey architecture, and crisis communication. Independently designed and shipped <strong>Safe-Logic</strong>, a behavioral decision tool.</p>
+          <p class="summary-text es">Profesional en psicología conductual en transición a operaciones de comunidades Web3, con Máster en Psicología Educativa (<strong>GPA 9.4/10</strong>) y <strong>más de 5,500 horas</strong> de práctica ABA. Traduce el rigor clínico en operaciones comunitarias: observación conductual basada en datos, diseño de motivaciones, arquitectura de recorrido de usuario y comunicación de crisis. Diseñó y lanzó de forma independiente <strong>Safe-Logic</strong>, una herramienta de decisión conductual.</p>
+        </div>
+      </section>
+
+      <!-- ABA → Web3 -->
+      <section class="fu d3">
+        <div class="slabel"><span class="zh">ABA 方法论 → Web3 社区运营</span><span class="en">ABA Methodology → Web3 Community Ops</span><span class="es">Metodología ABA → Ops de Comunidad Web3</span></div>
+        <div class="aba-grid">
+
+          <div class="aba-card">
+            <div class="aba-top">
+              <div class="aba-icon">◉</div>
+              <div>
+                <div class="aba-title"><span class="zh">行为观察</span><span class="en">Behavioral Observation</span><span class="es">Observación Conductual</span></div>
+                <div class="aba-arrow"><span class="zh">→ 社区健康监控</span><span class="en">→ Community Health Monitoring</span><span class="es">→ Monitoreo de Salud Comunitaria</span></div>
+              </div>
+            </div>
+            <div class="aba-desc zh">从交互数据中读取参与模式、情绪变化与流失信号，而非依赖表面指标。</div>
+            <div class="aba-desc en">Reading engagement patterns, sentiment shifts, and churn signals from interaction data — not surface metrics.</div>
+            <div class="aba-desc es">Lectura de patrones de participación, cambios de sentimiento y señales de abandono desde datos de interacción, no métricas superficiales.</div>
+          </div>
+
+          <div class="aba-card">
+            <div class="aba-top">
+              <div class="aba-icon">⬡</div>
+              <div>
+                <div class="aba-title"><span class="zh">量化数据采集</span><span class="en">Quantitative Data Collection</span><span class="es">Recolección Cuantitativa de Datos</span></div>
+                <div class="aba-arrow"><span class="zh">→ 数据驱动运营</span><span class="en">→ Analytics-Driven Ops</span><span class="es">→ Operaciones Basadas en Análisis</span></div>
+              </div>
+            </div>
+            <div class="aba-desc zh">ABC 框架将社区信号转化为可验证的策略假设。</div>
+            <div class="aba-desc en">ABC frameworks translate community signals into testable strategy hypotheses.</div>
+            <div class="aba-desc es">Los marcos ABC traducen las señales comunitarias en hipótesis estratégicas verificables.</div>
+          </div>
+
+          <div class="aba-card">
+            <div class="aba-top">
+              <div class="aba-icon">◈</div>
+              <div>
+                <div class="aba-title"><span class="zh">动机操控</span><span class="en">Motivation Operations</span><span class="es">Operaciones de Motivación</span></div>
+                <div class="aba-arrow"><span class="zh">→ 内在激励设计</span><span class="en">→ Intrinsic Engagement Design</span><span class="es">→ Diseño de Compromiso Intrínseco</span></div>
+              </div>
+            </div>
+            <div class="aba-desc zh">差异化激励设计，驱动有机、可持续增长，而非依赖外部奖励。</div>
+            <div class="aba-desc en">Differentiated incentive design driving organic, self-sustaining growth over external rewards.</div>
+            <div class="aba-desc es">Diseño de incentivos diferenciados que impulsa el crecimiento orgánico y autosostenible por encima de las recompensas externas.</div>
+          </div>
+
+          <div class="aba-card">
+            <div class="aba-top">
+              <div class="aba-icon">△</div>
+              <div>
+                <div class="aba-title"><span class="zh">行为塑造</span><span class="en">Behavioral Shaping</span><span class="es">Moldeamiento Conductual</span></div>
+                <div class="aba-arrow"><span class="zh">→ 用户旅程架构</span><span class="en">→ User-Journey Architecture</span><span class="es">→ Arquitectura del Recorrido de Usuario</span></div>
+              </div>
+            </div>
+            <div class="aba-desc zh">渐进式里程碑设计，将潜水用户转化为贡献者与 KOL。</div>
+            <div class="aba-desc en">Progressive milestones converting lurkers into contributors and KOLs.</div>
+            <div class="aba-desc es">Hitos progresivos que convierten observadores pasivos en contribuidores y KOLs.</div>
+          </div>
+
+          <div class="aba-card">
+            <div class="aba-top">
+              <div class="aba-icon">⊕</div>
+              <div>
+                <div class="aba-title"><span class="zh">多方协调</span><span class="en">Multi-Stakeholder Coordination</span><span class="es">Coordinación Multipartes</span></div>
+                <div class="aba-arrow"><span class="zh">→ 大使与生态系统项目</span><span class="en">→ Ambassador & Ecosystem Programs</span><span class="es">→ Programas de Embajadores y Ecosistema</span></div>
+              </div>
+            </div>
+            <div class="aba-desc zh">并行维护多方关系，保持信息传达的一致性。</div>
+            <div class="aba-desc en">Parallel relationships managed with consistent messaging across all channels.</div>
+            <div class="aba-desc es">Relaciones paralelas gestionadas con mensajes consistentes en todos los canales.</div>
+          </div>
+
+          <div class="aba-card">
+            <div class="aba-top">
+              <div class="aba-icon">🛡</div>
+              <div>
+                <div class="aba-title"><span class="zh">实时行为干预</span><span class="en">Real-Time Behavior Intervention</span><span class="es">Intervención Conductual en Tiempo Real</span></div>
+                <div class="aba-arrow"><span class="zh">→ 社区危机处理</span><span class="en">→ Crisis Communication</span><span class="es">→ Comunicación de Crisis</span></div>
+              </div>
+            </div>
+            <div class="aba-desc zh">在高压复杂场景中快速定位问题根源，制定透明、及时的危机沟通策略。</div>
+            <div class="aba-desc en">Root-cause diagnosis under pressure with transparent, timely response. Emotional stability maintained throughout.</div>
+            <div class="aba-desc es">Diagnóstico de causa raíz bajo presión con respuesta transparente y oportuna. Estabilidad emocional mantenida en todo momento.</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="fu d4">
+        <div class="slabel"><span class="zh">工作经历</span><span class="en">Professional Experience</span><span class="es">Experiencia Profesional</span></div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role zh">影子老师（融合教育）</div>
+              <div class="exp-role en">Shadow Teacher, Inclusive Education</div>
+              <div class="exp-role es">Maestra Sombra, Educación Inclusiva</div>
+            </div>
+            <div class="exp-date">Sep 2024 – Feb 2026</div>
+          </div>
+          <div class="exp-company zh">自雇</div>
+          <div class="exp-company en">Self-Employed</div>
+          <div class="exp-company es">Autónoma</div>
+          <div class="exp-sub zh">深圳 / 广州 · 公私立幼儿园及小学</div>
+          <div class="exp-sub en">Shenzhen / Guangzhou · Kindergartens & Primary Schools</div>
+          <div class="exp-sub es">Shenzhen / Guangzhou · Guarderías y Escuelas Primarias</div>
+          <ul class="exp-list">
+            <li class="zh">统筹多所幼儿园及小学的家校合作，作为学校管理层、教师与家长之间的主要协调人，确保多案例间支持的一致性。</li>
+            <li class="en">Coordinated ongoing home-school partnerships; served as primary liaison between school administrators, teachers, and families across multiple active cases.</li>
+            <li class="es">Coordinó alianzas continuas entre el hogar y la escuela; actuó como enlace principal entre administradores, maestros y familias en múltiples casos activos.</li>
+            <li class="zh">设计行为干预方案，帮助 ASD 儿童融入主流课堂，在社交参与和自我调节方面取得可量化进步。</li>
+            <li class="en">Designed behavioral interventions integrating ASD children into mainstream classrooms, with measurable gains in social engagement and self-regulation.</li>
+            <li class="es">Diseñó intervenciones conductuales para integrar niños con TEA en aulas regulares, con avances medibles en participación social y autorregulación.</li>
+            <li class="zh">独立运营全项目：排期管理、进展报告、策略迭代与跨机构协调。</li>
+            <li class="en">Solo practitioner with full project ownership: scheduling, progress reporting, strategy iteration, and cross-institutional coordination.</li>
+            <li class="es">Practicante independiente con propiedad total del proyecto: programación, informes de progreso, iteración de estrategias y coordinación interinstitucional.</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role zh">ABA 治疗师 & 影子老师</div>
+              <div class="exp-role en">ABA Therapist & Shadow Teacher</div>
+              <div class="exp-role es">Terapeuta ABA & Maestra Sombra</div>
+            </div>
+            <div class="exp-date">Jun 2023 – Sep 2024</div>
+          </div>
+          <div class="exp-company">Impower Education · 广州培立教育</div>
+          <div class="exp-sub zh">广州，中国</div>
+          <div class="exp-sub en">Guangzhou, China</div>
+          <div class="exp-sub es">Guangzhou, China</div>
+          <ul class="exp-list">
+            <li class="zh">为 2–8 岁 ASD 儿童设计个性化干预计划，基于持续行为数据迭代策略，并出具量化进展报告。</li>
+            <li class="en">Designed individualized intervention plans for children aged 2–8 with ASD; iterated strategy from continuous behavioral data with quantified progress reports.</li>
+            <li class="es">Diseñó planes de intervención individualizados para niños de 2 a 8 años con TEA; iteró estrategias a partir de datos conductuales continuos con informes de progreso cuantificados.</li>
+            <li class="zh">使用 DTT、NET 和 PECS 提供融合课堂支持；通过 VB-MAPP 和 ABLLS-R 评估量化成果。</li>
+            <li class="en">Delivered inclusive classroom support using DTT, NET, and PECS; benchmarked outcomes via VB-MAPP and ABLLS-R assessments.</li>
+            <li class="es">Brindó apoyo en aulas inclusivas usando DTT, NET y PECS; evaluó resultados mediante VB-MAPP y ABLLS-R.</li>
+            <li class="zh">与 BCBA、BCaBA 及家庭协调多方治疗方案，维持一致的临床框架。</li>
+            <li class="en">Coordinated multi-stakeholder treatment planning with BCBAs, BCaBAs, and families to maintain consistent clinical frameworks.</li>
+            <li class="es">Coordinó planificación de tratamiento multipartes con BCBAs, BCaBAs y familias para mantener marcos clínicos coherentes.</li>
+          </ul>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role zh">ABA 治疗师（一线）</div>
+              <div class="exp-role en">Front-line ABA Therapist</div>
+              <div class="exp-role es">Terapeuta ABA de Primera Línea</div>
+            </div>
+            <div class="exp-date">Jul 2022 – May 2023</div>
+          </div>
+          <div class="exp-company">Fumi Rehab Technology · 深圳复米康复科技（大米和小米）</div>
+          <div class="exp-sub zh">深圳，中国</div>
+          <div class="exp-sub en">Shenzhen, China</div>
+          <div class="exp-sub es">Shenzhen, China</div>
+          <ul class="exp-list">
+            <li class="zh">对 2–11 岁 ASD、ADHD 及发育迟缓儿童开展高强度 1 对 1 干预，使用 DTT 和 NET，逐课记录结构化数据。</li>
+            <li class="en">Delivered intensive 1-on-1 intervention for children aged 2–11 with ASD, ADHD, and developmental delays using DTT and NET; maintained structured session-by-session records.</li>
+            <li class="es">Realizó intervenciones intensivas 1 a 1 para niños de 2 a 11 años con TEA, TDAH y retrasos del desarrollo usando DTT y NET; mantuvo registros estructurados sesión a sesión.</li>
+            <li class="zh">关键成果：一名 2 岁 8 个月的非语言 ASD 儿童经过 3 个月强化干预后，在医院评估中达到正常发育基准。</li>
+            <li class="en">Key outcome: non-verbal ASD child (age 2y8m) reached normative developmental benchmarks on hospital assessment after 3 months of intensive intervention.</li>
+            <li class="es">Resultado clave: un niño con TEA no verbal (2a 8m) alcanzó los hitos normativos del desarrollo en evaluación hospitalaria tras 3 meses de intervención intensiva.</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <!-- Projects -->
+      <section class="fu d5">
+        <div class="slabel"><span class="zh">项目 & 社区</span><span class="en">Projects & Community</span><span class="es">Proyectos & Comunidad</span></div>
+
+        <div class="project-card">
+          <div class="proj-header">
+            <div class="proj-title">Safe-Logic — <span class="zh">行为决策工具</span><span class="en">Behavioral Decision Tool</span><span class="es">Herramienta de Decisión Conductual</span></div>
+            <a class="proj-link" href="https://grinsunyy.github.io/Risk" target="_blank">grinsunyy.github.io/Risk ↗</a>
+          </div>
+          <div class="proj-sub zh">独立开发者 · 已上线，2025</div>
+          <div class="proj-sub en">Solo Developer · Live, 2025</div>
+          <div class="proj-sub es">Desarrolladora en Solitario · En Producción, 2025</div>
+          <ul class="proj-list">
+            <li class="zh">设计并构建了一款结合 WCCA（决策压力测试）与 WADM（多维加权决策建模）的行为心理学决策工具。</li>
+            <li class="en">Designed and built a behavioral-psychology-based decision tool combining WCCA (decision stress testing) and WADM (multi-dimensional weighted decision modeling).</li>
+            <li class="es">Diseñó y desarrolló una herramienta de decisión basada en psicología conductual que combina WCCA (prueba de estrés decisional) y WADM (modelado de decisiones ponderado multidimensional).</li>
+            <li class="zh">全产品生命周期独立完成：需求分析、内容架构、前端开发、GitHub Pages 部署——零到上线，独立执行。</li>
+            <li class="en">Owned full product lifecycle: requirements, content architecture, frontend development, and GitHub Pages deployment — zero to live, solo execution.</li>
+            <li class="es">Gestionó el ciclo completo del producto: requisitos, arquitectura de contenido, desarrollo frontend y despliegue en GitHub Pages — de cero a producción, ejecución en solitario.</li>
+          </ul>
+        </div>
+
+        <div class="project-card">
+          <div class="proj-header">
+            <div class="proj-title"><span class="zh">心理健康沙龙 · 联合策划人</span><span class="en">Mental Health Events · Co-Organizer</span><span class="es">Eventos de Salud Mental · Co-Organizadora</span></div>
+          </div>
+          <div class="proj-sub zh">社区心理健康项目 · 广东，中国 · 2025</div>
+          <div class="proj-sub en">Community Psychology Initiative · Guangdong, China · 2025</div>
+          <div class="proj-sub es">Iniciativa de Psicología Comunitaria · Guangdong, China · 2025</div>
+          <ul class="proj-list">
+            <li class="zh">在广州、深圳、珠海联合策划并主办心理健康沙龙及电影疗愈活动，每场吸引 20–30 名参与者，具备可复制的活动交付模式。</li>
+            <li class="en">Co-designed and ran mental wellness salons and film therapy events across Guangzhou, Shenzhen, and Zhuhai — 20–30 participants per session with scalable event delivery.</li>
+            <li class="es">Codiseñó y realizó salones de bienestar mental y eventos de terapia fílmica en Guangzhou, Shenzhen y Zhuhai — 20 a 30 participantes por sesión con entrega de eventos escalable.</li>
+            <li class="zh">主导青少年学业规划工作坊与 ASD 照护者简报，将专业知识转化为面向不同受众的可及性内容。</li>
+            <li class="en">Led youth academic planning workshops and ASD caregiver briefings — translating specialist knowledge into accessible content for diverse audiences.</li>
+            <li class="es">Lideró talleres de planificación académica juvenil y sesiones informativas para cuidadores de niños con TEA, traduciendo conocimiento especializado en contenido accesible para audiencias diversas.</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <!-- Education -->
+      <section class="fu d6">
+        <div class="slabel"><span class="zh">教育背景</span><span class="en">Education</span><span class="es">Educación</span></div>
+
+        <div class="edu-item">
+          <div class="edu-degree zh">教育心理学 硕士 · <span class="edu-gpa">GPA 9.4 / 10.0</span></div>
+          <div class="edu-degree en">MSc, Educational Psychology · <span class="edu-gpa">GPA 9.4 / 10.0</span></div>
+          <div class="edu-degree es">Máster en Psicología Educativa · <span class="edu-gpa">GPA 9.4 / 10.0</span></div>
+          <div class="edu-school zh">波洛茨克国立大学 · 白俄罗斯</div>
+          <div class="edu-school en">Polotsk State University · Belarus</div>
+          <div class="edu-school es">Universidad Estatal de Polotsk · Bielorrusia</div>
+          <div class="edu-date">2020 – 2022</div>
+          <div class="edu-note zh">优秀助教，英语夏令营（2021）——跨文化协作与活动统筹</div>
+          <div class="edu-note en">Outstanding Teaching Assistant, English Summer Camp (2021) — cross-cultural facilitation and event coordination</div>
+          <div class="edu-note es">Auxiliar de Docencia Destacada, Campamento de Verano de Inglés (2021) — facilitación intercultural y coordinación de eventos</div>
+        </div>
+
+        <div class="edu-item">
+          <div class="edu-degree zh">工程造价管理 本科</div>
+          <div class="edu-degree en">BMgt, Engineering Cost Management</div>
+          <div class="edu-degree es">Licenciatura en Gestión de Costos de Ingeniería</div>
+          <div class="edu-school zh">成都信息工程大学 · 银杏酒店管理学院</div>
+          <div class="edu-school en">Chengdu University of Information Technology · Yinxing Hospitality Management College</div>
+          <div class="edu-school es">Universidad de Tecnología de la Información de Chengdu · Colegio Yinxing</div>
+          <div class="edu-date">2015 – 2019</div>
+        </div>
+
+      </section>
+
+      <!-- Closing -->
+      <div class="closing fu d7">
+        <div class="closing-text en">A Web3-focused thinker with strong foundations in psychology and applied behavior analysis, combining fast learning ability, deep thinking, and behavioral analytics, dedicated to understanding complex user behavior and incentive systems in decentralized ecosystems.</div>
+        <div class="closing-text es">Una pensadora orientada al Web3 con sólidas bases en psicología y análisis de conducta aplicada, que combina capacidad de aprendizaje rápido, pensamiento profundo y analítica conductual, dedicada a comprender el comportamiento complejo del usuario y los sistemas de incentivos en ecosistemas descentralizados.</div>
+        <div class="closing-cta">
+          <a href="mailto:eleanorliuy@gmail.com" style="color:var(--gold);text-decoration:none;">
+            <span class="en">Contact Ellie → eleanorliuy@gmail.com</span>
+            <span class="es">Contactar a Ellie → eleanorliuy@gmail.com</span>
+          </a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+/* ── LANG ── */
+const LANGS=['en','es'];
+function setLang(lang){
+  document.body.className='lang-'+lang;
+  document.querySelectorAll('.lt-btn').forEach((b,i)=>b.classList.toggle('active',LANGS[i]===lang));
+  // reset typewriter
+  pi=0;ci=0;deleting=false;wait=0;twEl.textContent='';
+}
+
+/* ── CUSTOM CURSOR ── */
+const cur=document.getElementById('custom-cursor');
+let cx=0,cy=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;});
+(function moveCur(){cx+=(tx-cx)*.22;cy+=(ty-cy)*.22;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(moveCur);})();
+document.querySelectorAll('a,button,.tag,.exp-item,.project-card,.aba-card,.name').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+/* ── CURSOR GLOW ── */
+const glow=document.getElementById('cursor-glow');
+let mx=window.innerWidth/2,my=window.innerHeight/2,gx=mx,gy=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function moveGlow(){gx+=(mx-gx)*.045;gy+=(my-gy)*.045;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(moveGlow);})();
+
+/* ── SCROLL BAR ── */
+const sb=document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{sb.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+
+/* ── PARTICLE NETWORK ── */
+const canvas=document.getElementById('vibe-canvas');
+const ctx=canvas.getContext('2d');
+const GOLD='rgba(200,169,110,',TEAL='rgba(74,158,138,';
+let W,H,pts=[];
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+function mkPt(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.2+.3,c:Math.random()>.5?GOLD:TEAL};}
+for(let i=0;i<72;i++)pts.push(mkPt());
+(function drawPts(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c+'.5)';ctx.fill();
+    for(let j=i+1;j<pts.length;j++){
+      const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy);
+      if(d<130){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=p.c+(1-d/130)*.14+')';ctx.lineWidth=.5;ctx.stroke();}
+    }
+  });
+  requestAnimationFrame(drawPts);
+})();
+
+/* ── BURST PARTICLES ── */
+const bc=document.getElementById('burst-canvas');
+const bctx=bc.getContext('2d');
+bc.width=window.innerWidth;bc.height=window.innerHeight;
+window.addEventListener('resize',()=>{bc.width=window.innerWidth;bc.height=window.innerHeight;});
+let bursts=[];
+document.addEventListener('click',e=>{
+  if(e.target.closest('#konami-overlay'))return;
+  for(let i=0;i<14;i++){
+    const a=Math.random()*Math.PI*2,s=Math.random()*3.5+1;
+    bursts.push({x:e.clientX,y:e.clientY,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,r:Math.random()*2.5+.8,c:Math.random()>.5?GOLD:TEAL});
+  }
+  const syms=['✦','⬡','◈','⊕','✺','⬟','△','◇'];
+  const el=document.createElement('div');
+  el.className='click-sym';
+  el.textContent=syms[Math.floor(Math.random()*syms.length)];
+  el.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;color:${Math.random()>.5?'#c8a96e':'#4a9e8a'};`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1000);
+});
+(function drawBursts(){
+  bctx.clearRect(0,0,bc.width,bc.height);
+  bursts=bursts.filter(b=>b.life>0);
+  bursts.forEach(b=>{b.x+=b.vx;b.y+=b.vy;b.vy+=.1;b.life-=.032;
+    bctx.beginPath();bctx.arc(b.x,b.y,b.r*b.life,0,Math.PI*2);
+    bctx.fillStyle=b.c+b.life+')';bctx.fill();});
+  requestAnimationFrame(drawBursts);
+})();
+
+/* ── 3D HEADER TILT ── */
+const hdr=document.querySelector('.hdr');
+hdr&&hdr.addEventListener('mousemove',e=>{
+  const r=hdr.getBoundingClientRect();
+  hdr.style.transform=`perspective(900px) rotateX(${((e.clientY-r.top)/r.height-.5)*4}deg) rotateY(${((e.clientX-r.left)/r.width-.5)*-4}deg)`;
+});
+hdr&&hdr.addEventListener('mouseleave',()=>{hdr.style.transition='transform .6s cubic-bezier(.22,1,.36,1)';hdr.style.transform='none';setTimeout(()=>hdr.style.transition='',600);});
+
+/* ── NAME GLITCH ── */
+document.querySelectorAll('.name').forEach(n=>{
+  n.addEventListener('mouseenter',()=>n.classList.add('glitching'));
+  n.addEventListener('mouseleave',()=>n.classList.remove('glitching'));
+});
+
+/* ── SCROLL REVEAL ── */
+document.querySelectorAll('.fu').forEach(el=>el.classList.add('reveal'));
+const ro=new IntersectionObserver((entries,obs)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+/* ── TYPEWRITER — trilingual ── */
+const twEl=document.getElementById('typewriter');
+const phrases={
+  en:['ABA Practitioner → Transitioning to Web3','5,500+ hrs Behavioral Practice · MSc Psychology','Data-Driven · Systematic · Open to Learn','[ Try ↑↑↓↓←→←→BA ]'],
+  es:['Practicante ABA → Transición al Web3','5,500+ hrs de Práctica Conductual · Máster Psicología','Basada en Datos · Sistemática · Dispuesta a Aprender','[ Prueba ↑↑↓↓←→←→BA ]']
+};
+let pi=0,ci=0,deleting=false,wait=0;
+function getLang(){return LANGS.find(l=>document.body.classList.contains('lang-'+l))||'en';}
+function typeStep(){
+  const list=phrases[getLang()];
+  const ph=list[pi%list.length];
+  if(wait>0){wait--;return setTimeout(typeStep,55);}
+  if(!deleting){
+    twEl.textContent=ph.slice(0,++ci);
+    if(ci===ph.length){deleting=true;wait=45;}
+    setTimeout(typeStep,70);
+  } else {
+    twEl.textContent=ph.slice(0,--ci);
+    if(ci===0){deleting=false;pi++;wait=8;}
+    setTimeout(typeStep,28);
+  }
+}
+setTimeout(typeStep,1000);
+
+/* ── KONAMI — trilingual ── */
+const KONAMI=[38,38,40,40,37,39,37,39,66,65];
+let ki=0;
+document.getElementById('konami-close').addEventListener('click',()=>document.getElementById('konami-overlay').classList.remove('show'));
+document.addEventListener('keydown',e=>{
+  ki=e.keyCode===KONAMI[ki]?ki+1:0;
+  if(ki===KONAMI.length){
+    const lang=getLang();
+    document.getElementById('k-eyebrow-zh').style.display='none';
+    document.getElementById('k-eyebrow-en').style.display=lang==='en'?'block':'none';
+    document.getElementById('k-eyebrow-es').style.display=lang==='es'?'block':'none';
+    document.getElementById('konami-overlay').classList.add('show');
+    ki=0;
+  }
+});
+</script>
+</body>
+</html>
